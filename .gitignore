@@ -1,0 +1,8 @@
+# Backup da versão antiga (1.4 MB de imagens em base64) — mantido só localmente
+index-claro.html
+
+# Dependências / temporários
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
