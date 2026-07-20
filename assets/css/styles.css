@@ -38,8 +38,8 @@ a{color:inherit}
   letter-spacing:.015em;
 }
 .display i{
-  font-family:"Jost",sans-serif;font-style:italic;font-weight:100;
-  color:var(--gold);letter-spacing:.03em;
+  font-family:"Jost",sans-serif;font-style:italic;font-weight:300;
+  color:#9a5f28;letter-spacing:.03em;
 }
 h2.display{font-size:clamp(32px,4.6vw,56px);max-width:24ch;line-height:1.12}
 h3.serif{font-family:"Jost",sans-serif;font-style:italic;font-weight:300;font-size:clamp(20px,2.2vw,25px);line-height:1.25}
@@ -117,7 +117,7 @@ section{padding:clamp(72px,9vw,130px) 0;position:relative}
   display:flex;flex-direction:column;align-items:center;
   padding:96px clamp(20px,4vw,48px);max-width:980px;
 }
-.hero-logo{height:30px;width:auto;margin-bottom:clamp(28px,4vh,48px);opacity:.95}
+.hero-logo{height:64px;width:auto;margin-bottom:clamp(28px,4vh,48px);opacity:.95}
 
 .ghost{
   display:flex;gap:34px;flex-wrap:wrap;justify-content:center;
@@ -326,7 +326,7 @@ ul.tick.no li::before{
   position:absolute;inset:0;
   background:linear-gradient(180deg,var(--ink0) 0%,rgba(250,246,241,.5) 30%,rgba(250,246,241,.5) 70%,var(--ink0) 100%);
 }
-.final .display i{color:var(--gold)}
+.final .display i{color:#9a5f28}
 .final .inner{display:flex;flex-direction:column;align-items:center;gap:24px}
 .final h2{max-width:22ch;margin:0 auto}
 .final p{margin:0 auto}
@@ -335,7 +335,7 @@ footer{
   display:flex;justify-content:space-between;align-items:center;gap:20px;
   font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--cream-dim);
 }
-footer img{height:20px;width:auto;opacity:.85}
+footer img{height:44px;width:auto;opacity:.85}
 
 /* =============== responsivo =============== */
 @media (max-width:920px){
