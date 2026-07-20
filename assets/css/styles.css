@@ -198,8 +198,8 @@ section{padding:clamp(72px,9vw,130px) 0;position:relative}
 }
 .steps article::before{
   content:"0" counter(st);
-  font-family:"Jost",sans-serif;font-style:italic;font-weight:100;
-  font-size:clamp(38px,4vw,54px);color:var(--gold);line-height:1;
+  font-family:"Jost",sans-serif;font-style:italic;font-weight:300;
+  font-size:clamp(38px,4vw,54px);color:#9a5f28;line-height:1;
 }
 .steps .st-copy{display:grid;gap:8px}
 .steps h3{font-family:"Jost",sans-serif;font-style:italic;font-weight:300;font-size:23px;letter-spacing:.02em}
