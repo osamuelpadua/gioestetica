@@ -437,6 +437,20 @@
   </div>
 </section>
 
+<!-- ============ FILTRO DE AGENDAMENTO ============ -->
+<div class="quiz" id="quiz" role="dialog" aria-modal="true" aria-label="Agendar avaliação" hidden>
+  <div class="quiz-backdrop" data-quiz-close></div>
+  <div class="quiz-card">
+    <div class="quiz-head">
+      <div class="quiz-track"><span class="quiz-fill" id="quizFill"></span></div>
+      <button class="quiz-x" type="button" data-quiz-close aria-label="Fechar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="quiz-body" id="quizBody" aria-live="polite"></div>
+  </div>
+</div>
+
 <script src="assets/js/main.js" defer></script>
 </body>
 </html>
