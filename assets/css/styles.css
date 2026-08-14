@@ -337,99 +337,45 @@ footer{
 }
 footer img{height:44px;width:auto;opacity:.85}
 
-/* =============== FILTRO DE AGENDAMENTO (quiz) =============== */
-.quiz{
-  position:fixed;inset:0;z-index:90;
-  display:flex;align-items:center;justify-content:center;
-  padding:clamp(14px,4vw,40px);
-  opacity:0;transition:opacity .28s ease;
+/* =============== FORM DE AGENDAMENTO (modal em etapas) =============== */
+.fm-ov{position:fixed;inset:0;z-index:60;background:rgba(12,8,14,.62);backdrop-filter:blur(8px);
+  display:none;align-items:flex-end;justify-content:center}
+.fm-ov.open{display:flex}
+@media(min-width:640px){.fm-ov{align-items:center}}
+.fm{width:min(560px,100%);max-height:92svh;overflow:auto;background:var(--ink1);
+  border:1px solid var(--line);border-radius:22px 22px 0 0;padding:30px clamp(22px,4vw,38px) 34px;position:relative}
+@media(min-width:640px){.fm{border-radius:22px}}
+.fm-x{position:absolute;top:16px;right:18px;background:none;border:0;color:var(--cream-dim);
+  font-size:26px;cursor:pointer;line-height:1}
+.fm-progress{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--orchid);
+  font-weight:600;margin-bottom:16px}
+.fm-q{font-family:"Jost",sans-serif;font-weight:500;font-size:clamp(22px,3vw,28px);
+  line-height:1.28;color:var(--cream);margin-bottom:22px}
+.fm-opts{display:grid;gap:10px}
+.fm-opt{display:block;width:100%;text-align:left;background:var(--ink2);border:1px solid var(--line);
+  color:var(--cream);border-radius:12px;padding:16px 18px;font-size:15.5px;cursor:pointer;
+  font-family:"Instrument Sans",sans-serif;transition:border-color .2s,transform .15s}
+.fm-opt:hover{border-color:var(--gold);transform:translateY(-1px)}
+.fm-back{margin-top:18px;background:none;border:0;color:var(--cream-dim);font-size:13px;
+  letter-spacing:.08em;cursor:pointer;text-transform:uppercase}
+.fm-field{display:grid;gap:7px;margin-bottom:16px}
+.fm-field label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--cream-dim)}
+.fm-field input{background:var(--ink2);border:1px solid var(--line);border-radius:12px;
+  padding:15px 16px;font-size:16px;color:var(--cream);font-family:"Instrument Sans",sans-serif;outline:none}
+.fm-field input:focus{border-color:var(--gold)}
+/* font-family explícito: <button> não herda a fonte da página e .cta não a define,
+   então sem isto o botão cai no Arial padrão do navegador. */
+.fm-send{width:100%;margin-top:8px;cursor:pointer;border:0;justify-content:center;
+  font-family:"Instrument Sans",sans-serif}
+.fm-ok{text-align:center;display:grid;gap:16px;justify-items:center;padding:16px 0}
+.fm-ok .big{font-family:"Jost",sans-serif;font-weight:500;font-size:26px;line-height:1.28;color:var(--cream)}
+.fm-bonus{
+  margin-top:16px;background:linear-gradient(135deg,rgba(201,122,62,.16),rgba(201,122,62,.05));
+  border:1px solid rgba(201,122,62,.4);border-radius:12px;padding:14px 16px;
+  font-size:14px;line-height:1.55;color:var(--cream);
 }
-.quiz[hidden]{display:none}
-.quiz.is-open{opacity:1}
-.quiz-backdrop{
-  position:absolute;inset:0;
-  background:rgba(43,32,48,.6);backdrop-filter:blur(6px);
-}
-.quiz-card{
-  position:relative;z-index:1;width:min(560px,100%);
-  max-height:min(90svh,780px);overflow-y:auto;
-  background:var(--ink1);border:1px solid var(--line);border-radius:22px;
-  padding:clamp(24px,4vw,38px);
-  box-shadow:0 30px 80px rgba(43,32,48,.3);
-  transform:translateY(18px) scale(.985);
-  transition:transform .34s cubic-bezier(.2,.8,.25,1);
-}
-.quiz.is-open .quiz-card{transform:none}
-@media (prefers-reduced-motion:reduce){
-  .quiz,.quiz-card{transition:none}
-}
-
-.quiz-head{display:flex;align-items:center;gap:20px;margin-bottom:clamp(22px,3vw,30px)}
-.quiz-track{flex:1;height:3px;border-radius:999px;background:rgba(181,122,60,.2);overflow:hidden}
-.quiz-fill{
-  display:block;height:100%;width:0;border-radius:999px;
-  background:linear-gradient(90deg,var(--gold),var(--amber));
-  transition:width .4s cubic-bezier(.2,.8,.25,1);
-}
-.quiz-x{
-  flex:none;width:30px;height:30px;display:grid;place-items:center;
-  background:none;border:0;border-radius:50%;cursor:pointer;color:var(--cream-dim);
-  transition:color .2s, background .2s;
-}
-.quiz-x:hover{color:var(--cream);background:var(--ink2)}
-.quiz-x svg{width:17px;height:17px}
-
-.quiz-eyebrow{
-  font-size:11px;letter-spacing:.28em;text-transform:uppercase;
-  color:var(--amber);font-weight:600;margin-bottom:14px;
-}
-.quiz-title{
-  font-family:"Italiana",serif;font-weight:400;letter-spacing:.015em;
-  font-size:clamp(25px,3.4vw,33px);line-height:1.16;color:var(--cream);
-}
-.quiz-note{margin-top:14px;font-size:15px;line-height:1.6;color:var(--cream-dim);max-width:none}
-
-.quiz-opts{display:grid;gap:10px;margin-top:clamp(22px,3vw,28px)}
-.quiz-opt{
-  font:inherit;font-size:16px;text-align:left;color:var(--cream);
-  background:var(--ink2);border:1px solid var(--line);border-radius:12px;
-  padding:17px 20px;cursor:pointer;
-  transition:background .2s, border-color .2s, transform .2s;
-}
-.quiz-opt:hover{background:#e2d4c4;border-color:var(--gold);transform:translateX(3px)}
-.quiz-opt:focus-visible,.quiz-field:focus-visible,.quiz-x:focus-visible,.quiz-ghost:focus-visible{
-  outline:2px solid var(--gold);outline-offset:2px;
-}
-
-.quiz-form{display:grid;gap:12px;margin-top:clamp(22px,3vw,28px)}
-.quiz-field{
-  width:100%;font:inherit;font-size:16px;color:var(--cream);
-  background:var(--ink2);border:1px solid var(--line);border-radius:12px;
-  padding:17px 20px;
-}
-.quiz-field::placeholder{color:rgba(95,82,102,.6)}
-.quiz-field:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(181,122,60,.16)}
-.quiz-err{font-size:13.5px;color:#a8452f;letter-spacing:.02em}
-
-button.cta{font-family:inherit;cursor:pointer}
-.quiz-cta{width:100%;justify-content:center;text-align:center}
-.quiz-ghost{
-  width:100%;font:inherit;font-size:15px;letter-spacing:.03em;color:var(--cream);
-  background:transparent;border:1px solid var(--line);border-radius:999px;
-  padding:18px 24px;cursor:pointer;margin-top:clamp(22px,3vw,28px);
-  transition:background .2s, border-color .2s;
-}
-.quiz-ghost:hover{background:var(--ink2);border-color:var(--gold)}
-.quiz-back{
-  justify-self:start;margin-top:18px;padding:0;
-  background:none;border:0;font:inherit;font-size:13px;letter-spacing:.06em;
-  color:var(--cream-dim);cursor:pointer;
-  text-decoration:underline;text-underline-offset:4px;
-}
-.quiz-back:hover{color:var(--cream)}
-.quiz-step{animation:quizIn .32s ease both}
-@keyframes quizIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){.quiz-step{animation:none}}
+.fm-bonus b{color:var(--gold)}
+.fm-err{color:#c0452a;font-size:13.5px;margin-top:10px;display:none}
 
 /* =============== responsivo =============== */
 @media (max-width:920px){

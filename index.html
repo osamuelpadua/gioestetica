@@ -7,7 +7,7 @@
 <title>Harmonização Glútea | GIO Estética Avançada — Osasco</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200;1,300;1,400&family=Italiana&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400&family=Italiana&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
@@ -437,17 +437,68 @@
   </div>
 </section>
 
-<!-- ============ FILTRO DE AGENDAMENTO ============ -->
-<div class="quiz" id="quiz" role="dialog" aria-modal="true" aria-label="Agendar avaliação" hidden>
-  <div class="quiz-backdrop" data-quiz-close></div>
-  <div class="quiz-card">
-    <div class="quiz-head">
-      <div class="quiz-track"><span class="quiz-fill" id="quizFill"></span></div>
-      <button class="quiz-x" type="button" data-quiz-close aria-label="Fechar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
+<!-- ============ FORM DE AGENDAMENTO (modal em etapas) ============ -->
+<div class="fm-ov" id="fmOv" role="dialog" aria-modal="true">
+  <div class="fm">
+    <button class="fm-x" id="fmX" aria-label="Fechar">×</button>
+
+    <div class="fm-step" data-step="1">
+      <p class="fm-progress">Passo 1 de 4</p>
+      <p class="fm-q">A avaliação é presencial, na Gio em Osasco. Você consegue vir até a clínica?</p>
+      <div class="fm-opts">
+        <button class="fm-opt" data-k="local" data-v="Moro em Osasco ou região">Sim, moro em Osasco ou região</button>
+        <button class="fm-opt" data-k="local" data-v="Venho de outra cidade">Sim, venho de outra cidade</button>
+        <button class="fm-opt" data-k="local" data-v="NAO consegue presencial" data-dq="1">Não consigo ir presencialmente</button>
+      </div>
     </div>
-    <div class="quiz-body" id="quizBody" aria-live="polite"></div>
+
+    <div class="fm-step" data-step="2" hidden>
+      <p class="fm-progress">Passo 2 de 4</p>
+      <p class="fm-q">Os protocolos de harmonização glútea da Gio partem de R$ 1.500 e o valor exato do seu é apresentado na avaliação. Como você está em relação a isso?</p>
+      <div class="fm-opts">
+        <button class="fm-opt" data-k="invest" data-v="Pronta pra investir no protocolo certo">Estou pronta pra investir no protocolo certo pra mim</button>
+        <button class="fm-opt" data-k="invest" data-v="Quero conhecer valores e condições na avaliação">Quero conhecer os valores e as condições na avaliação</button>
+        <button class="fm-opt" data-k="invest" data-v="APENAS pesquisando preço">Por enquanto só estou pesquisando preço</button>
+      </div>
+      <button class="fm-back">Voltar</button>
+    </div>
+
+    <div class="fm-step" data-step="3" hidden>
+      <p class="fm-progress">Passo 3 de 4</p>
+      <p class="fm-q">Sua avaliação é individual e a agenda da semana tem poucas vagas. Se a gente encontrar um horário, você comparece?</p>
+      <div class="fm-opts">
+        <button class="fm-opt" data-k="agenda" data-v="Sim, essa semana">Sim, tenho agenda pra essa semana</button>
+        <button class="fm-opt" data-k="agenda" data-v="Sim, nas proximas semanas">Sim, melhor nas próximas semanas</button>
+        <button class="fm-opt" data-k="agenda" data-v="Ainda nao sei">Ainda não sei minha disponibilidade</button>
+      </div>
+      <p class="fm-bonus">Presente da Gio: fechando o seu protocolo na avaliação, você ganha uma <b>revitalização facial</b> ou uma <b>massagem relaxante</b>, você escolhe.</p>
+      <button class="fm-back">Voltar</button>
+    </div>
+
+    <div class="fm-step" data-step="4" hidden>
+      <p class="fm-progress">Passo 4 de 4</p>
+      <p class="fm-q">Como posso te chamar?</p>
+      <div class="fm-field"><label for="fmNome">Seu nome</label><input id="fmNome" type="text" autocomplete="name" placeholder="Como você quer ser chamada"></div>
+      <button class="cta fm-send" id="fmSend">Agendar pelo WhatsApp</button>
+      <p class="fm-err" id="fmErr">Me conta seu nome pra gente continuar.</p>
+      <button class="fm-back">Voltar</button>
+    </div>
+
+    <div class="fm-step" data-step="6" hidden>
+      <div class="fm-ok">
+        <p class="big">A avaliação da Gio é presencial</p>
+        <p>Por enquanto a gente só consegue cuidar de você aqui na clínica, em Osasco. Se em algum momento você puder vir até a região, vai ser um prazer te receber. Guarda a gente no Instagram: @giorochdale</p>
+      </div>
+    </div>
+
+    <div class="fm-step" data-step="5" hidden>
+      <div class="fm-ok">
+        <p class="big">Perfeito! Agora é só chamar a gente.</p>
+        <p>Abrimos o WhatsApp da Gio com a sua mensagem pronta. É só enviar que a equipe encontra o melhor horário da semana pra sua avaliação.</p>
+        <a class="cta" id="fmWa" href="#" target="_blank" rel="noopener">Abrir o WhatsApp</a>
+        <p style="font-size:13.5px">E lembra: fechando o protocolo na avaliação, a revitalização facial ou a massagem relaxante é por nossa conta.</p>
+      </div>
+    </div>
   </div>
 </div>
 
