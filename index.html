@@ -491,8 +491,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="fm-progress">Passo 4 de 4</p>
       <p class="fm-q">Como posso te chamar?</p>
       <div class="fm-field"><label for="fmNome">Seu nome</label><input id="fmNome" type="text" autocomplete="name" placeholder="Como você quer ser chamada"></div>
+      <div class="fm-field"><label for="fmZap">Seu WhatsApp</label><input id="fmZap" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="(11) 99999-9999" maxlength="16"></div>
+      <!-- Isca de robô: sai da tela pelo CSS e da ordem de tabulação pelo tabindex,
+           então nenhuma visitante a encontra. Quem preenche não é gente — o lead
+           segue pro WhatsApp normalmente, mas não vai pro CRM. -->
+      <div class="fm-trap" aria-hidden="true"><label for="fmSite">Não preencha este campo</label><input id="fmSite" type="text" tabindex="-1" autocomplete="off"></div>
       <button class="cta fm-send" id="fmSend">Agendar pelo WhatsApp</button>
-      <p class="fm-err" id="fmErr">Me conta seu nome pra gente continuar.</p>
+      <p class="fm-err" id="fmErr"></p>
       <button class="fm-back">Voltar</button>
     </div>
 
@@ -514,6 +519,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="assets/js/main.js?v=2" defer></script>
+<script src="assets/js/main.js?v=3" defer></script>
 </body>
 </html>

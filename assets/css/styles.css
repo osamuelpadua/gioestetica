@@ -376,6 +376,9 @@ footer img{height:44px;width:auto;opacity:.85}
 }
 .fm-bonus b{color:var(--gold)}
 .fm-err{color:#c0452a;font-size:13.5px;margin-top:10px;display:none}
+/* A isca de robô. Fora da tela em vez de display:none porque parte dos robôs
+   pula o que está escondido — este eles enxergam e preenchem. */
+.fm-trap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 
 /* =============== responsivo =============== */
 @media (max-width:920px){
