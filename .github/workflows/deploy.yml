@@ -1,7 +1,10 @@
 name: Deploy
 
 # Publica o site na Hostinger a cada push na main.
-# O rsync sobe só o que mudou; o --delete apaga do servidor o que saiu do repo.
+# O servidor é um espelho do repositório: o rsync sobe só o que mudou e
+# apaga o que não vem daqui. Se algum arquivo precisar viver no servidor
+# (verificação de domínio, por exemplo), ele tem que estar no Git — a
+# exceção é .well-known/, protegida por causa da renovação do SSL.
 on:
   push:
     branches: [main]
@@ -26,7 +29,8 @@ jobs:
 
       - name: Enviar arquivos
         run: |
-          rsync -az --delete \
+          rsync -az --delete --delete-excluded \
+            --filter 'protect .well-known/' \
             -e "ssh -i ~/.ssh/deploy -p ${{ secrets.SSH_PORT }}" \
             --exclude '.git' \
             --exclude '.github' \
