@@ -1,0 +1,36 @@
+name: Deploy
+
+# Publica o site na Hostinger a cada push na main.
+# O rsync sobe só o que mudou; o --delete apaga do servidor o que saiu do repo.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Preparar chave SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/deploy
+          chmod 600 ~/.ssh/deploy
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Enviar arquivos
+        run: |
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/deploy -p ${{ secrets.SSH_PORT }}" \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude '.gitignore' \
+            --exclude 'README.md' \
+            --exclude 'depoimentos/' \
+            ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}/
