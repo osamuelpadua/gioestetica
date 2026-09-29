@@ -20,6 +20,28 @@ const WA_NUMBER = "551136568148";
    repositório): o filtro "página que gerou o lead" compara texto exato. */
 const PAGE_TAG  = document.title.includes("claro") ? "LP clara" : "LP Harmonização Glútea";
 
+/* === DE QUAL CAMPANHA A VISITANTE VEIO ===
+   O anúncio do Meta abre a página com ?utm_campaign=... no endereço (quem
+   põe isso é o tráfego, nos Parâmetros de URL do anúncio). Guardado na
+   sessão porque o endereço pode perder o parâmetro se ela recarregar a
+   página antes de preencher o formulário.
+
+   Escrito no formato da lista CAMPANHAS do CRM (assets/js/crm-data.js, no
+   outro repositório): "Glúteo tráfego frio" e "GLUTEO-TRAFEGO-FRIO" viram o
+   mesmo valor. Sem parâmetro, fica "—", como antes. */
+function campanhaDaVisita(){
+  let bruto = '';
+  try { bruto = new URLSearchParams(location.search).get('utm_campaign') || ''; } catch(e){}
+  try {
+    if(bruto) sessionStorage.setItem('gio_campanha', bruto);
+    else bruto = sessionStorage.getItem('gio_campanha') || '';
+  } catch(e){}
+  const campanha = bruto.normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .toUpperCase().replace(/[^A-Z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,60);
+  return campanha || '—';
+}
+const CAMPANHA = campanhaDaVisita();
+
 /* === O CRM DA CLÍNICA ===
    Estas duas linhas são públicas de propósito e podem ficar no Git. A chave
    viaja dentro do JavaScript que qualquer visitante baixa — é assim que o
@@ -134,7 +156,7 @@ function enviarParaCRM(nome, whatsapp, respostas){
       nome: nome,
       whatsapp: whatsapp,
       origem: 'Tráfego pago · Meta',
-      campanha: '—',
+      campanha: CAMPANHA,
       pagina_origem: PAGE_TAG,
       produto_interesse: 'Harmonização Glútea · Essencial',
       respostas_formulario: respostas,
