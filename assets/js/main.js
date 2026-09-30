@@ -26,9 +26,9 @@ const PAGE_TAG  = document.title.includes("claro") ? "LP clara" : "LP Harmoniza�
    sessão porque o endereço pode perder o parâmetro se ela recarregar a
    página antes de preencher o formulário.
 
-   Escrito no formato da lista CAMPANHAS do CRM (assets/js/crm-data.js, no
-   outro repositório): "Glúteo tráfego frio" e "GLUTEO-TRAFEGO-FRIO" viram o
-   mesmo valor. Sem parâmetro, fica "—", como antes. */
+   Vai o nome real da campanha, como está no Meta ({{campaign.name}}), para
+   dar para distinguir duas campanhas do mesmo procedimento. Sem parâmetro,
+   fica "—", como antes. */
 function campanhaDaVisita(){
   let bruto = '';
   try { bruto = new URLSearchParams(location.search).get('utm_campaign') || ''; } catch(e){}
@@ -36,9 +36,7 @@ function campanhaDaVisita(){
     if(bruto) sessionStorage.setItem('gio_campanha', bruto);
     else bruto = sessionStorage.getItem('gio_campanha') || '';
   } catch(e){}
-  const campanha = bruto.normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-    .toUpperCase().replace(/[^A-Z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,60);
-  return campanha || '—';
+  return bruto.replace(/\s+/g,' ').trim().slice(0,120) || '—';
 }
 const CAMPANHA = campanhaDaVisita();
 
