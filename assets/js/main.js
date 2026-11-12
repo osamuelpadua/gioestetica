@@ -20,25 +20,35 @@ const WA_NUMBER = "551136568148";
    repositório): o filtro "página que gerou o lead" compara texto exato. */
 const PAGE_TAG  = document.title.includes("claro") ? "LP clara" : "LP Harmonização Glútea";
 
-/* === DE QUAL CAMPANHA A VISITANTE VEIO ===
-   O anúncio do Meta abre a página com ?utm_campaign=... no endereço (quem
-   põe isso é o tráfego, nos Parâmetros de URL do anúncio). Guardado na
-   sessão porque o endereço pode perder o parâmetro se ela recarregar a
-   página antes de preencher o formulário.
-
-   Vai o nome real da campanha, como está no Meta ({{campaign.name}}), para
-   dar para distinguir duas campanhas do mesmo procedimento. Sem parâmetro,
-   fica "—", como antes. */
-function campanhaDaVisita(){
-  let bruto = '';
-  try { bruto = new URLSearchParams(location.search).get('utm_campaign') || ''; } catch(e){}
-  try {
-    if(bruto) sessionStorage.setItem('gio_campanha', bruto);
-    else bruto = sessionStorage.getItem('gio_campanha') || '';
-  } catch(e){}
-  return bruto.replace(/\s+/g,' ').trim().slice(0,120) || '—';
+/* === DE QUAL ANÚNCIO A VISITANTE VEIO ===
+   O anúncio do Meta abre a página com os nomes no endereço (quem põe isso é
+   o tráfego, nos Parâmetros de URL do anúncio):
+     utm_campaign={{campaign.name}}  → campanha
+     utm_term={{adset.name}}         → conjunto
+     utm_content={{ad.name}}         → anúncio
+   Guardado na sessão porque o endereço pode perder os parâmetros se ela
+   recarregar a página antes de preencher o formulário. Link novo com
+   qualquer um deles substitui os três, para não misturar um conjunto
+   antigo com a campanha nova. Sem parâmetro, a campanha fica "—" e
+   conjunto e anúncio ficam vazios, como antes. */
+function anuncioDaVisita(){
+  const chaves = { campanha: 'utm_campaign', conjunto: 'utm_term', anuncio: 'utm_content' };
+  let url = null;
+  try { url = new URLSearchParams(location.search); } catch(e){}
+  const doLink = !!url && Object.values(chaves).some(p => url.get(p));
+  const r = {};
+  for (const nome in chaves){
+    let bruto = doLink ? (url.get(chaves[nome]) || '') : '';
+    try {
+      if(doLink) sessionStorage.setItem('gio_' + nome, bruto);
+      else bruto = sessionStorage.getItem('gio_' + nome) || '';
+    } catch(e){}
+    r[nome] = bruto.replace(/\s+/g,' ').trim().slice(0,120);
+  }
+  return r;
 }
-const CAMPANHA = campanhaDaVisita();
+const ANUNCIO  = anuncioDaVisita();
+const CAMPANHA = ANUNCIO.campanha || '—';
 
 /* === O CRM DA CLÍNICA ===
    Estas duas linhas são públicas de propósito e podem ficar no Git. A chave
@@ -155,6 +165,8 @@ function enviarParaCRM(nome, whatsapp, respostas){
       whatsapp: whatsapp,
       origem: 'Tráfego pago · Meta',
       campanha: CAMPANHA,
+      conjunto: ANUNCIO.conjunto || null,
+      anuncio_nome: ANUNCIO.anuncio || null,
       pagina_origem: PAGE_TAG,
       produto_interesse: 'Harmonização Glútea · Essencial',
       respostas_formulario: respostas,
